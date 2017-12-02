@@ -10,7 +10,6 @@ class PostList extends React.Component  {
     this.state = {
       posts: []
     }
-  
   }
 
   componentDidMount(){
@@ -26,7 +25,7 @@ class PostList extends React.Component  {
         <ul>
           {this.state.posts.filter(x => !!x.id).map(x =>
             <li key={x.id}>
-            <Link to={`/detail/${x.id}`}>{x.title}</Link>
+            <Link to={`/post/${x.id}`}>{x.title}</Link>
             </li>
           )}
         </ul>

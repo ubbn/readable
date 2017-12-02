@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 import { get } from '../Utils/PostApi'
 import CommentAdd from './CommentAdd'
@@ -17,7 +18,8 @@ class PostDetail extends React.Component {
   render(){
     return (
       <div>
-        <h2>{this.state.post.title}</h2>
+        <h2>{this.state.post.title} </h2>
+        <small><Link to="/edit">edit</Link></small>
         <p>{this.state.post.body}</p>
         <CommentAdd />
       </div>
