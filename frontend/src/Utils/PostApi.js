@@ -15,22 +15,23 @@ export const get = (postId) =>
 export const getAll = () =>
   fetch(`${api}/posts`, {headers}).then(res => res.json())
 
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
+export const update = (post) =>
+  fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ shelf })
+    body: JSON.stringify(post)
   }).then(res => res.json())
 
 export const add = (post) => {
-  fetch('http://127.0.0.1:3001/posts/', {
+  return fetch('http://127.0.0.1:3001/posts/', {
     method: 'POST',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(post)
-  }).then(res => res.json())}
+  }).then(res => res.json())
+}

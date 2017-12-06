@@ -1,26 +1,15 @@
-import React from 'react';
 import { combineReducers } from 'redux'
+import { posts } from './posts'
 
-import * as ActionTypes from '../Actions'
-
-const posts = (state, action) => {
+const comments = (state=[], action) => {
   switch(action.type) {
-    case ActionTypes.POST_CREATE:
-      return {
-        ...state
-      }
     default:
       return state
   }
-  
 }
 
-const comments = (state, action) => {
-
-}
-
-const categories = (state, action) => {
-
+const categories = (state=[], action) => {
+  return state
 }
 
 const rootReducer = combineReducers({

@@ -1,22 +1,35 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import { add } from '../Utils/PostApi'
 import { getId} from '../Utils/Generator'
 import { getAll } from '../Utils/CategoryApi'
+import { addPost, updatePost } from '../Actions'
 
 class PostAdd extends React.Component {
   state = {
     post: {},
-    categories: []
+    categories: [],
+    redirect: false
   }
 
   componentDidMount(){
+    // replace
     getAll().then(x => this.setState({categories: x.categories}))
+
+    if (!!this.props.match.params.postId)
+      this.setState({post: this.props.activePost})
   }
 
   onSubmit = (e) => {
     e.preventDefault()
-    add({...this.state.post, id: getId(), timestamp: Math.floor(Date.now())})
+
+    if (!!this.state.post.id)
+      this.props.updatePost(this.state.post)
+    else
+      this.props.addNewPost(this.state.post)
+    
+    this.setState({redirect: true})
   }
 
   valueChanged = (tag, e) => {
@@ -26,32 +39,61 @@ class PostAdd extends React.Component {
   }
 
   render() {
+    const { from } = this.props.location.state || '/'
+
     return (
-      <form onSubmit={this.onSubmit}>
-        <p>
-          <label htmlFor="title">Title: </label>
-          <input name="title" id="title" type="text" placeholder="Title" onChange={e => this.valueChanged("title", e)}/>
-        </p>
-        <p>
-          <label htmlFor="author">Author: </label>
-          <input name="author" id="author" type="text" placeholder="Author" onChange={e => this.valueChanged("author", e)}/>
-        </p>
-        <p>
-          <label htmlFor="categories">Categories: </label>
-          <select name="categories" id="categories" onChange={e => this.valueChanged("category", e)}>
-            {this.state.categories.map(x => <option key={x.name}>{x.name}</option>)}
-          </select>
-        </p>
-        <p>
-          <label htmlFor="body">Body: </label>
-          <textarea name="body" id="body" cols="30" rows="10" placeholder="Post body" onChange={e => this.valueChanged("body", e)}/>
-        </p>
-        <p>
-          <input type="submit" value="Save"/>
-        </p>
-      </form>    
+      <div>
+        <form onSubmit={this.onSubmit}>
+        <div>{this.props.match.params.postId}</div>
+          <p>
+            <label htmlFor="title">Title: </label>
+            <input name="title" id="title" type="text" placeholder="Title" 
+              onChange={e => this.valueChanged("title", e)}
+              value={this.state.post.title}/>
+          </p>
+          <p>
+            <label htmlFor="author">Author: </label>
+            <input name="author" id="author" type="text" placeholder="Author" 
+              onChange={e => this.valueChanged("author", e)}
+              value={this.state.post.author}/>
+          </p>
+          <p>
+            <label htmlFor="categories">Categories: </label>
+            <select name="categories" id="categories" 
+              onChange={e => this.valueChanged("category", e)}
+              value={this.state.post.category}>
+              {this.state.categories.map(x => <option key={x.name}>{x.name}</option>)}
+            </select>
+          </p>
+          <p>
+            <label htmlFor="body">Body: </label>
+            <textarea name="body" id="body" cols="30" rows="10" placeholder="Post body" 
+              onChange={e => this.valueChanged("body", e)}
+              value={this.state.post.body}/>
+          </p>
+          <p>
+            <input type="submit" value="Save"/>
+          </p>
+        </form>
+        {this.state.redirect && (<Redirect to={from} />)}
+      </div>
     )
   }
 }
 
-export default PostAdd;
+function mapStateToProps ({posts, comments, categories})  {
+  return {
+    activePost: posts.activePost, 
+    comments, 
+    categories
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addNewPost: post => dispatch(addPost(post)),
+    updatePost: post => dispatch(updatePost(post))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostAdd);

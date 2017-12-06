@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {Link, Route, BrowserRouter as Router} from 'react-router-dom'
 
 import PostDetail from './PostDetail'
 import { getAll } from '../Utils/PostApi'
+import { fetchPosts } from '../Actions'
 
 class PostList extends React.Component  {
   constructor(){
@@ -12,10 +14,11 @@ class PostList extends React.Component  {
     }
   }
 
-  componentDidMount(){
-    getAll().then(x => 
-      this.setState({posts: x})
-    )
+  componentWillMount(){
+    this.props.dispatch(fetchPosts())
+    // getAll().then(x => 
+    //   this.setState({posts: x})
+    // )
   }
 
   render(){
@@ -23,7 +26,7 @@ class PostList extends React.Component  {
       <div>
         <h2>Blog posts</h2>
         <ul>
-          {this.state.posts.filter(x => !!x.id).map(x =>
+          {this.props.allPosts.filter(x => !!x.id).map(x =>
             <li key={x.id}>
             <Link to={`/post/${x.id}`}>{x.title}</Link>
             </li>
@@ -35,4 +38,11 @@ class PostList extends React.Component  {
     
 }
 
-export default PostList;
+function mapStateToProps({posts, comments, categories}){
+  return {
+    allPosts: posts.allPosts,
+    allComments: comments
+  }
+}
+
+export default connect(mapStateToProps)(PostList);
