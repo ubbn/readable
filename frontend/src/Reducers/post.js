@@ -1,11 +1,11 @@
-import * as ActionTypes from '../Actions'
+import * as ActionTypes from '../Actions/post'
 
 const initialState = {
   allPosts: [],
   activePost: {}
 }
 
-export const posts = (state=initialState, action) => {
+export const post = (state=initialState, action) => {
   switch(action.type) {
     case ActionTypes.POST_GET:
       return {
@@ -19,7 +19,7 @@ export const posts = (state=initialState, action) => {
       }
     case ActionTypes.POST_UPDATE:
       return {
-        allPosts: state.allPosts.filter(x => x.id != action.post.id).concat([action.post]),
+        allPosts: state.allPosts.filter(x => x.id !== action.post.id).concat([action.post]),
         activePost: action.post
       }
     case ActionTypes.POSTS_FETCH:
@@ -30,7 +30,7 @@ export const posts = (state=initialState, action) => {
     case ActionTypes.POST_DELETE:
       return {
         ...state,
-        allPosts: state.allPosts.filter(x=> x.id != action.id)
+        allPosts: state.allPosts.filter(x=> x.id !== action.id)
       }
     default:
       return state

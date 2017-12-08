@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { getPost } from '../Actions'
+import { getPost } from '../Actions/post'
 import CommentAdd from './CommentAdd'
-import PostAdd from './PostAdd'
 
 class PostDetail extends React.Component {
   state = {
@@ -13,9 +12,6 @@ class PostDetail extends React.Component {
 
   componentDidMount(){
     this.props.get(this.props.match.params.postId)
-    // get(this.props.match.params.postId).then(x => 
-    //   this.setState({post: x})
-    // )
   }
 
   render(){
@@ -26,16 +22,16 @@ class PostDetail extends React.Component {
         <small><Link to={`${this.props.match.url}/edit`}>edit</Link></small>{' | '}
         <small><Link to={`${this.props.match.url}/delete`}>delete</Link></small>
         <p>{this.props.post.body}</p>
-        <p>Category: {this.props.post.category}</p>
+        <p>Category: <Link to={`ss/posts`}>{this.props.post.category}</Link></p>
         <CommentAdd />
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({post}) {
   return {
-    post: state.posts.activePost
+    post: post.activePost
   }
 }
 

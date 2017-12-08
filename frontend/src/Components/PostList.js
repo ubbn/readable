@@ -1,30 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Link, Route, BrowserRouter as Router} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import PostDetail from './PostDetail'
-import { getAll } from '../Utils/PostApi'
-import { fetchPosts } from '../Actions'
+import { fetchPosts } from '../Actions/post'
 
 class PostList extends React.Component  {
-  constructor(){
-    super()
-    this.state = {
-      posts: []
-    }
-  }
-
-  componentWillMount(){
-    this.props.dispatch(fetchPosts())
-    // getAll().then(x => 
-    //   this.setState({posts: x})
-    // )
+  componentDidMount(){
+    this.props.dispatch(fetchPosts(this.props.match.params.category))
   }
 
   render(){
+    console.log(this.props.match.params.category)
     return (
       <div>
         <h2>Blog posts</h2>
+        {!!this.props.match.params.category && <small>filtered by category: {this.props.match.params.category}</small> }
         <ul>
           {this.props.allPosts.filter(x => !!x.id).map(x =>
             <li key={x.id}>
@@ -32,16 +22,17 @@ class PostList extends React.Component  {
             </li>
           )}
         </ul>
+        
       </div>
     )
   }
     
 }
 
-function mapStateToProps({posts, comments, categories}){
+function mapStateToProps({post, comment, category}){
   return {
-    allPosts: posts.allPosts,
-    allComments: comments
+    allPosts: post.allPosts,
+    allComments: comment
   }
 }
 

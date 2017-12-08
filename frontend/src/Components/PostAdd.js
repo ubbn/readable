@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { getId} from '../Utils/Generator'
 import { getAll } from '../Utils/CategoryApi'
-import { addPost, updatePost } from '../Actions'
+import { addPost, updatePost } from '../Actions/post'
 
 class PostAdd extends React.Component {
   state = {
@@ -14,9 +13,8 @@ class PostAdd extends React.Component {
   }
 
   componentDidMount(){
-    // replace
-    getAll().then(x => this.setState({categories: x.categories}))
-
+    // Param postId is provided, it means it is EditPost
+    // so open active post on edit form
     if (!!this.props.match.params.postId)
       this.setState({post: this.props.activePost})
   }
@@ -24,6 +22,7 @@ class PostAdd extends React.Component {
   onSubmit = (e) => {
     e.preventDefault()
 
+    // Post id is already assigned, it means it is Editing, so update it
     if (!!this.state.post.id)
       this.props.updatePost(this.state.post)
     else
@@ -34,17 +33,16 @@ class PostAdd extends React.Component {
 
   valueChanged = (tag, e) => {
     e.preventDefault()
-    const xx = e.target.value
-    this.setState(prevState => ({post: { ...prevState.post, [tag]: xx}}))
+    const value = e.target.value
+    this.setState(prevState => ({post: { ...prevState.post, [tag]: value}}))
   }
 
   render() {
-    const { from } = this.props.location.state || '/'
+    const to = !!this.state.post.id ? `/post/${this.state.post.id}` : "/"
 
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-        <div>{this.props.match.params.postId}</div>
           <p>
             <label htmlFor="title">Title: </label>
             <input name="title" id="title" type="text" placeholder="Title" 
@@ -62,7 +60,7 @@ class PostAdd extends React.Component {
             <select name="categories" id="categories" 
               onChange={e => this.valueChanged("category", e)}
               value={this.state.post.category}>
-              {this.state.categories.map(x => <option key={x.name}>{x.name}</option>)}
+              {this.props.category.map(x => <option key={x.name}>{x.name}</option>)}
             </select>
           </p>
           <p>
@@ -75,17 +73,17 @@ class PostAdd extends React.Component {
             <input type="submit" value="Save"/>
           </p>
         </form>
-        {this.state.redirect && (<Redirect to={from} />)}
+        {this.state.redirect && (<Redirect to={to} />)}
       </div>
     )
   }
 }
 
-function mapStateToProps ({posts, comments, categories})  {
+function mapStateToProps ({post, comment, category})  {
   return {
-    activePost: posts.activePost, 
-    comments, 
-    categories
+    activePost: post.activePost, 
+    comment, 
+    category
   }
 }
 

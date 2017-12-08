@@ -4,6 +4,7 @@ import {Link, Route, BrowserRouter as Router} from 'react-router-dom'
 import PostAdd from './Components/PostAdd'
 import PostList from './Components/PostList'
 import PostDetail from './Components/PostDetail'
+import PostDelete from './Components/PostDelete'
 import CategoryList from './Components/CategoryList'
 
 class App extends Component {
@@ -17,9 +18,10 @@ class App extends Component {
           <Link to="/">Home</Link>
           <CategoryList/>
           <Route exact path="/" component={PostList}/>
+          <Route exact path="/:category/posts" component={PostList}/>
           <Route path="/add" component={PostAdd}/>
           <Route exact path="/post/:postId" component={PostDetail}/>
-          <Route path="/post/:postId/delete" render={() => <div>Yepo</div> }/>
+          <Route path="/post/:postId/delete" component={PostDelete}/>
           <Route path="/post/:postId/edit" component={PostAdd}/>
         </div>
       </Router>

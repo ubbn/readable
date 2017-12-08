@@ -1,21 +1,13 @@
 import { combineReducers } from 'redux'
-import { posts } from './posts'
 
-const comments = (state=[], action) => {
-  switch(action.type) {
-    default:
-      return state
-  }
-}
-
-const categories = (state=[], action) => {
-  return state
-}
+import { post } from './post'
+import { category } from './category'
+import { comment } from './comment'
 
 const rootReducer = combineReducers({
-  posts,
-  comments,
-  categories
+  post,
+  category,
+  comment,
 })
 
 export default rootReducer

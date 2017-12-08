@@ -15,6 +15,10 @@ export const get = (postId) =>
 export const getAll = () =>
   fetch(`${api}/posts`, {headers}).then(res => res.json())
 
+export const getByCategory = (category) =>
+  fetch(`${api}/${category}/posts`, {headers})
+    .then(res => res.json())
+
 export const update = (post) =>
   fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',
@@ -33,5 +37,15 @@ export const add = (post) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(post)
+  }).then(res => res.json())
+}
+
+export const remove = (id) => {
+  return fetch(`${api}/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
   }).then(res => res.json())
 }

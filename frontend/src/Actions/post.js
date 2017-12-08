@@ -1,7 +1,7 @@
 import * as Generator from '../Utils/Generator'
 import * as PostApi from '../Utils/PostApi'
 
-export const POST_GET = 'POST_GET' // not used yet
+export const POST_GET = 'POST_GET'
 export const POSTS_FETCH = 'POSTS_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
@@ -26,10 +26,13 @@ export const getPost = id => dispatch => {
   return PostApi.get(id).then(post => dispatch({type: POST_GET, post}))
 }
 
-export const fetchPosts = () => dispatch => {
-  PostApi.getAll().then(
-    posts => dispatch({type: POSTS_FETCH, posts})
-  )
+export const fetchPosts = (category) => dispatch => {
+  if (!!category)
+    return PostApi.getByCategory(category)
+      .then(posts => dispatch({type: POSTS_FETCH, posts}))  
+  else
+    return PostApi.getAll()
+      .then(posts => dispatch({type: POSTS_FETCH, posts}))
 }
 
 export const updatePost = post => dispatch => {
@@ -41,14 +44,11 @@ export const updatePost = post => dispatch => {
   )
 }
 
-export const deletePost = ({id}) => {
-  return ({
-    type: POST_DELETE,
-    id
-  })
+export const deletePost = (id) => dispatch => {
+  PostApi.remove(id).then(
+    post => dispatch({
+      type: POST_DELETE,
+      id
+    })
+  )
 }
-
-export const COMMENT_CREATE = 'COMMENT_CREATE'
-export const COMMENT_UPDATE = 'COMMENT_UPDATE'
-export const COMMENT_DELETE = 'COMMENT_DELETE'
-
