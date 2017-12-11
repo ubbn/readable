@@ -221,7 +221,6 @@ app.post('/posts/:id', bodyParser.json(), (req, res) => {
 })
 
 app.put('/posts/:id', bodyParser.json(), (req, res) => {
-    console.log('Id: comes here??? NO?')
     posts.edit(req.token, req.params.id, req.body)
       .then(
         (data) => res.send(data),
@@ -235,12 +234,9 @@ app.put('/posts/:id', bodyParser.json(), (req, res) => {
 })
 
 app.get('/posts/:id/comments', (req, res) => {
-    console.log('Id: comes here???')
     comments.getByParent(req.token, req.params.id)
       .then(
-          (data) => {
-              console.log(data)
-              return res.send(data)},
+          (data) => res.send(data),
           (error) => {
               console.error(error)
               res.status(500).send({
