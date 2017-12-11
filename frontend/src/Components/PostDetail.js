@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
+import { convertToDate } from '../Utils'
 import { getPost } from '../Actions/post'
 import CommentAdd from './CommentAdd'
+import CommentList from './CommentList'
 
 class PostDetail extends React.Component {
   state = {
@@ -11,25 +13,34 @@ class PostDetail extends React.Component {
   }
 
   componentDidMount(){
-    this.props.get(this.props.match.params.postId)
+    this.props.getPost(this.props.match.params.postId)
+    //this.props.getComments(this.props.match.params.postId)
   }
 
   render(){
+    const {post, match} = this.props
     return (
       <div>
-        <h2>{this.props.post.title} </h2>
-
-        <small><Link to={`${this.props.match.url}/edit`}>edit</Link></small>{' | '}
-        <small><Link to={`${this.props.match.url}/delete`}>delete</Link></small>
-        <p>{this.props.post.body}</p>
-        <p>Category: <Link to={`ss/posts`}>{this.props.post.category}</Link></p>
+        <h2>{post.title} - {post.id}</h2>
+        <small>
+          <p>published by {post.author}</p>
+          <Link to={`${match.url}/edit`}>edit</Link>{' | '}
+          <Link to={`${match.url}/delete`}>delete</Link>
+        </small>
+        <p>{post.body}</p>
+        <small>
+          <p>Category: <Link to={`/${post.category}/posts`}>{post.category}</Link></p>
+          {convertToDate(post.timestamp)} 
+        </small>
+        <hr/>
+        <CommentList />
         <CommentAdd />
       </div>
     )
   }
 }
 
-function mapStateToProps({post}) {
+function mapStateToProps({post, comment}) {
   return {
     post: post.activePost
   }
@@ -37,7 +48,7 @@ function mapStateToProps({post}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    get: id => dispatch(getPost(id))
+    getPost: id => dispatch(getPost(id)),
   }
 }
 

@@ -14,7 +14,6 @@ class PostDelete extends React.Component {
   goBack = (e) => {
     e.preventDefault()
 
-    //console.log(this.props)
     this.props.history.go(-1)
   }
   
@@ -30,8 +29,8 @@ class PostDelete extends React.Component {
   }
 }
 
-const mapStateToProps = ({ posts }) => ({
-  activePost: posts.activePost
+const mapStateToProps = ({ post }) => ({
+  activePost: post.activePost
 })
 
 const mapDispatchToProps = dispatch => ({

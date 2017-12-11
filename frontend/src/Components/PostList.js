@@ -6,11 +6,12 @@ import { fetchPosts } from '../Actions/post'
 
 class PostList extends React.Component  {
   componentDidMount(){
+    //console.log(this.props.match.params.category)
     this.props.dispatch(fetchPosts(this.props.match.params.category))
   }
 
   render(){
-    console.log(this.props.match.params.category)
+    //console.log(this.props.match.params.category)
     return (
       <div>
         <h2>Blog posts</h2>

@@ -1,4 +1,4 @@
-import * as Generator from '../Utils/Generator'
+import * as Util from '../Utils'
 import * as PostApi from '../Utils/PostApi'
 
 export const POST_GET = 'POST_GET'
@@ -13,8 +13,8 @@ const addPostAC = post => ({
 })
 
 export const addPost = post => dispatch => {
-  post.id = Generator.getId()
-  post.timestamp = Math.floor(Date.now())
+  post.id = Util.getId()
+  post.timestamp = Util.getTimestamp()
   
   PostApi.add(post).then(
     post => dispatch(addPostAC(post)), 
@@ -27,6 +27,7 @@ export const getPost = id => dispatch => {
 }
 
 export const fetchPosts = (category) => dispatch => {
+  //console.log('Tell me why ' + category)
   if (!!category)
     return PostApi.getByCategory(category)
       .then(posts => dispatch({type: POSTS_FETCH, posts}))  

@@ -11,6 +11,7 @@ class CategoryList extends React.Component {
   }
 
   refreshPosts = (e, category) => {
+    //e.preventDefault()
     this.props.fetchPosts(category)
   }
 
@@ -22,7 +23,7 @@ class CategoryList extends React.Component {
           {!!this.props.allCategories && this.props.allCategories.map(x => 
             <li key={x.path}>
               <Link to={`/${x.path}/posts`} onClick={(e) => this.refreshPosts(e, x.path)}>{x.name}</Link>
-              </li>
+            </li>
           )}
         </ul>
       </div>
@@ -35,7 +36,7 @@ const mapStateToProps = ({ category }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchPost: category => dispatch(fetchPosts(category)),
+  fetchPosts: category => dispatch(fetchPosts(category)),
   fetchCategories: () => dispatch(fetchCategories())
 })
 

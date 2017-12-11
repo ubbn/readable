@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { getAll } from '../Utils/CategoryApi'
 import { addPost, updatePost } from '../Actions/post'
 
 class PostAdd extends React.Component {
