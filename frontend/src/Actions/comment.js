@@ -2,7 +2,6 @@ import { getId, getTimestamp } from '../Utils'
 import * as CommentApi from '../Utils/CommentApi'
 
 export const COMMENT_GET = 'COMMENT_GET'
-export const COMMENT_VOTE = 'COMMENT_VOTE'
 export const COMMENT_FETCH = 'COMMENT_FETCH'
 export const COMMENT_CREATE = 'COMMENT_CREATE'
 export const COMMENT_UPDATE = 'COMMENT_UPDATE'
@@ -18,18 +17,22 @@ export const fetchComments = postId => dispatch =>
     comments => dispatch({type: COMMENT_FETCH, comments})
   )
 
-export const addComment = comment => dispatch => {
-  comment.id = getId()
-  comment.timestamp = getTimestamp()
+export const addComment = (body, parentId) => dispatch => {
+  const comment = {
+    id: getId(),
+    timestamp: getTimestamp(),
+    parentId,
+    body
+  }
 
   CommentApi.add(comment).then(
     comment => dispatch({type: COMMENT_CREATE, comment})
   )
 }
 
-export const voteComment = id => dispatch =>
-  CommentApi.vote(id).then(
-    comment => dispatch({type: COMMENT_VOTE, comment})
+export const voteComment = (id, vote) => dispatch =>
+  CommentApi.vote(id, vote).then(
+    comment => dispatch({type: COMMENT_UPDATE, comment})
   )
 
 export const editComment = comment => dispatch =>

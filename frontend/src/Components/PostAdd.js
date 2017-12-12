@@ -16,6 +16,9 @@ class PostAdd extends React.Component {
     // so open active post on edit form
     if (!!this.props.match.params.postId)
       this.setState({post: this.props.activePost})
+    
+    // Set default value for category
+    this.setState(prevState => ({post: { ...prevState.post, category: this.category.value}}))
   }
 
   onSubmit = (e) => {
@@ -58,7 +61,8 @@ class PostAdd extends React.Component {
             <label htmlFor="categories">Categories: </label>
             <select name="categories" id="categories" 
               onChange={e => this.valueChanged("category", e)}
-              value={this.state.post.category}>
+              value={this.state.post.category}
+              ref={ctrl => this.category = ctrl}>
               {this.props.category.map(x => <option key={x.name}>{x.name}</option>)}
             </select>
           </p>

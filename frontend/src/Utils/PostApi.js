@@ -40,3 +40,14 @@ export const remove = (id) => {
     }
   }).then(res => res.json())
 }
+
+export const vote = (id, vote) => {
+  return fetch(`${api}/posts/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(vote)
+  }).then(res => res.json())
+}

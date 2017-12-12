@@ -4,13 +4,9 @@ export const get = id =>
   fetch(`${api}/comments/${id}`, {headers})
     .then(res => res.json())
 
-export const fetchAll = postId => {
-  console.log("ID: " + postId)
-  return fetch(`${api}/posts/${postId}/comments`, {headers})
-    .then(res => {
-      console.log(res)
-      return res.json()})
-  }
+export const fetchAll = postId => 
+  fetch(`${api}/posts/${postId}/comments`, {headers})
+    .then(res => res.json())
 
 export const add = comment =>
   fetch(`${api}/comments`, {
@@ -22,13 +18,14 @@ export const add = comment =>
     body: JSON.stringify(comment)
   }).then(res => res.json())
 
-export const vote = id => 
+export const vote = (id, vote) => 
   fetch(`${api}/comments/${id}`, {
     method: 'POST',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify(vote)
   }).then(res => res.json())
 
 export const edit = comment => 
@@ -39,7 +36,7 @@ export const edit = comment =>
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(comment)
-  }).then(res => res.json)
+  }).then(res => res.json())
 
 export const remove = id => 
   fetch(`${api}/comments/${id}`, {

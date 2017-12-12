@@ -15,6 +15,7 @@ const addPostAC = post => ({
 export const addPost = post => dispatch => {
   post.id = Util.getId()
   post.timestamp = Util.getTimestamp()
+  post.voteScore = 0
   
   PostApi.add(post).then(
     post => dispatch(addPostAC(post)), 
@@ -27,7 +28,6 @@ export const getPost = id => dispatch => {
 }
 
 export const fetchPosts = (category) => dispatch => {
-  //console.log('Tell me why ' + category)
   if (!!category)
     return PostApi.getByCategory(category)
       .then(posts => dispatch({type: POSTS_FETCH, posts}))  
@@ -50,6 +50,15 @@ export const deletePost = (id) => dispatch => {
     post => dispatch({
       type: POST_DELETE,
       id
+    })
+  )
+}
+
+export const votePost = (id, vote) => dispatch => {
+  PostApi.vote(id, vote).then(
+    post => dispatch({
+      type: POST_UPDATE,
+      post      
     })
   )
 }

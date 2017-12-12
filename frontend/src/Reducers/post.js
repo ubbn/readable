@@ -8,6 +8,7 @@ const initialState = {
 export const post = (state=initialState, action) => {
   switch(action.type) {
     case ActionTypes.POST_GET:
+      console.log('Reducer post - getPost: ' + action.post.id)
       return {
         ...state,
         activePost: action.post
@@ -25,7 +26,8 @@ export const post = (state=initialState, action) => {
     case ActionTypes.POSTS_FETCH:
       return {
         ...state,
-        allPosts: action.posts
+        allPosts: action.posts,
+        activePost: {}
       }
     case ActionTypes.POST_DELETE:
       return {
