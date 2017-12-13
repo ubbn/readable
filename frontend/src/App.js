@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link, Route, BrowserRouter as Router} from 'react-router-dom'
+import {Link, Switch, Route, BrowserRouter as Router} from 'react-router-dom'
 
 import PostAdd from './Components/PostAdd'
 import PostList from './Components/PostList'
@@ -17,12 +17,14 @@ class App extends Component {
           <Link to="/add">Add new</Link><br/>
           <Link to="/">Home</Link>
           <CategoryList/>
+          <Switch>
+            <Route exact path="/add" component={PostAdd}/>
+            <Route exact path="/:category" component={PostList}/>
+          </Switch>
           <Route exact path="/" component={PostList}/>
-          <Route exact path="/:category/posts" component={PostList}/>
-          <Route exact path="/post/:postId" component={PostDetail}/>
-          <Route path="/post/:postId/delete" component={PostDelete}/>
-          <Route path="/post/:postId/edit" component={PostAdd}/>
-          <Route path="/add" component={PostAdd}/>
+          <Route exact path="/:category/:postId" component={PostDetail}/>
+          <Route path="/:category/:postId/delete" component={PostDelete}/>
+          <Route path="/:category/:postId/edit" component={PostAdd}/>
         </div>
       </Router>
     );
