@@ -22,7 +22,7 @@ class CategoryList extends React.Component {
         <ul>
           {!!this.props.allCategories && this.props.allCategories.map(x => 
             <li key={x.path}>
-              <Link to={`/${x.path}/posts`} onClick={(e) => this.refreshPosts(e, x.path)}>{x.name}</Link>
+              <Link to={`/${x.path}`} onClick={(e) => this.refreshPosts(e, x.name)}>{x.name}</Link>
             </li>
           )}
         </ul>

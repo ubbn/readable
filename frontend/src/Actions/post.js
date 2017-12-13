@@ -6,6 +6,7 @@ export const POSTS_FETCH = 'POSTS_FETCH'
 export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
 export const POST_DELETE = 'POST_DELETE'
+export const POST_SORT = 'POST_SORT'
 
 const addPostAC = post => ({
   type: POST_CREATE,
@@ -28,6 +29,7 @@ export const getPost = id => dispatch => {
 }
 
 export const fetchPosts = (category) => dispatch => {
+  console.log(category)
   if (!!category)
     return PostApi.getByCategory(category)
       .then(posts => dispatch({type: POSTS_FETCH, posts}))  
@@ -61,4 +63,11 @@ export const votePost = (id, vote) => dispatch => {
       post      
     })
   )
+}
+
+export const sortPosts = field => dispatch => {
+  dispatch({
+    type: POST_SORT,
+    field 
+  })
 }

@@ -3,23 +3,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 import { fetchPosts } from '../Actions/post'
+import Sorter from './Sorter'
 
 class PostList extends React.Component  {
   componentDidMount(){
-    //console.log(this.props.match.params.category)
     this.props.dispatch(fetchPosts(this.props.match.params.category))
   }
 
   render(){
-    //console.log(this.props.match.params.category)
     return (
       <div>
         <h2>Blog posts</h2>
         {!!this.props.match.params.category && <small>filtered by category: {this.props.match.params.category}</small> }
         <ul>
+          <Sorter/>
           {this.props.allPosts.filter(x => !!x.id).map(x =>
             <li key={x.id}>
-            <Link to={`/post/${x.id}`}>{x.title}</Link>
+              <Link to={`${x.category}/${x.id}`}>{x.title} ({x.voteScore})</Link>
             </li>
           )}
         </ul>
@@ -27,12 +27,21 @@ class PostList extends React.Component  {
       </div>
     )
   }
-    
 }
 
 function mapStateToProps({post, comment, category}){
+  const field = post.sortBy
+  const sortedPosts = post.allPosts.sort((a, b) => {
+    if (a[field] > b[field])
+      return 1
+    else if (a[field] < b[field])
+      return -1
+    else
+      return 0
+  })
   return {
-    allPosts: post.allPosts,
+    allPosts: sortedPosts,
+    sortBy: post.sortBy,
     allComments: comment
   }
 }
