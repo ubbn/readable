@@ -9,7 +9,6 @@ const initialState = {
 export const post = (state=initialState, action) => {
   switch(action.type) {
     case ActionTypes.POST_GET:
-      console.log('Reducer post - getPost: ' + action.post.id)
       return {
         ...state,
         activePost: action.post
@@ -35,12 +34,26 @@ export const post = (state=initialState, action) => {
     case ActionTypes.POST_DELETE:
       return {
         ...state,
-        allPosts: state.allPosts.filter(x=> x.id !== action.id)
+        allPosts: state.allPosts.filter(x=> x.id !== action.id),
+        activePost: {}
       }
     case ActionTypes.POST_SORT:
       return {
         ...state,
         sortBy: action.field
+      }
+    case ActionTypes.POST_ACTIVE_UPDATE:
+      return {
+        ...state,
+        activePost: {
+          ...state['activePost'],
+          ...action.post
+        }
+      }
+    case ActionTypes.POST_ACTIVE_DELETE:
+      return {
+        ...state,
+        activePost: {}
       }
     default:
       return state

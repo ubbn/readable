@@ -7,6 +7,8 @@ export const POST_CREATE = 'POST_CREATE'
 export const POST_UPDATE = 'POST_UPDATE'
 export const POST_DELETE = 'POST_DELETE'
 export const POST_SORT = 'POST_SORT'
+export const POST_ACTIVE_UPDATE = 'POST_ACTIVE_UPDATE'
+export const POST_ACTIVE_DELETE = 'POST_ACTIVE_DELETE'
 
 export const addPost = post => dispatch => {
   post.id = Util.getId()
@@ -52,6 +54,14 @@ export const deletePost = (id) => dispatch =>
       id
     })
   )
+
+export const updateActivePost = post => dispatch => {
+  dispatch({type: POST_ACTIVE_UPDATE, post})
+}
+
+export const deleteActivePost = () => dispatch => {
+  dispatch({type: POST_ACTIVE_DELETE})
+}
 
 export const votePost = (id, vote) => dispatch => 
   PostApi.vote(id, vote).then(

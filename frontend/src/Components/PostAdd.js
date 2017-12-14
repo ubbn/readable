@@ -2,44 +2,48 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { addPost, updatePost } from '../Actions/post'
+import { addPost, getPost, updatePost, deleteActivePost, updateActivePost } from '../Actions/post'
 
 class PostAdd extends React.Component {
   state = {
-    post: {}, // current post on Edit/Add
     redirect: false
   }
 
+  isOnEdit = !!this.props.match.params.postId
+
   componentDidMount(){
     // Param postId is provided, it means it is EditPost
-    // so open active post on edit form
-    if (!!this.props.match.params.postId)
-      this.setState({post: this.props.activePost})
-    
-    // Set default value for category
-    this.setState(prevState => ({post: { ...prevState.post, category: this.category.value}}))
+    if (this.isOnEdit)
+      this.props.getPost(this.props.match.params.postId)
+    else{
+      this.props.deleteActivePost()
+      this.props.updateActivePost({category: this.category.value})
+    }
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
     // Post id is already assigned, it means it is Editing, so update it
-    if (!!this.state.post.id)
-      this.props.updatePost(this.state.post)
+    if (this.isOnEdit)
+      this.props.updatePost(this.props.activePost)
     else
-      this.props.addNewPost(this.state.post)
+      this.props.addNewPost(this.props.activePost)
     
     this.setState({redirect: true})
   }
 
   valueChanged = (tag, e) => {
     e.preventDefault()
-    const value = e.target.value
-    this.setState(prevState => ({post: { ...prevState.post, [tag]: value}}))
+    this.props.updateActivePost({[tag]: e.target.value})
+  }
+
+  cancelled = (e) => {
+    this.props.deleteActivePost()
   }
 
   render() {
-    const {id, title, body, author, category} = this.state.post
+    const {id, title, body, author, category} = this.isOnEdit ? this.props.activePost : {}
     const redirectTo = !!id ? `/${category}/${id}` : "/"
 
     return (
@@ -74,7 +78,7 @@ class PostAdd extends React.Component {
           </p>
           <p>
             <input type="submit" value="Save"/>{' '}
-            <Link to={redirectTo}>Cancel</Link>
+            <Link to={redirectTo} onClick={this.cancelled}>Cancel</Link>
           </p>
         </form>
         {this.state.redirect && (<Redirect to={redirectTo} />)}
@@ -83,18 +87,20 @@ class PostAdd extends React.Component {
   }
 }
 
-function mapStateToProps ({post, comment, category})  {
+function mapStateToProps ({post, category})  {
   return {
     activePost: post.activePost, 
-    comment, 
     category
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    getPost: id => dispatch(getPost(id)),
     addNewPost: post => dispatch(addPost(post)),
-    updatePost: post => dispatch(updatePost(post))
+    updatePost: post => dispatch(updatePost(post)),
+    updateActivePost: post => dispatch(updateActivePost(post)),
+    deleteActivePost: () => dispatch(deleteActivePost()),
   }
 }
 

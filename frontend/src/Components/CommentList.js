@@ -7,7 +7,6 @@ import CommentDetail from './CommentDetail'
 class CommentList extends React.Component {
 
   componentDidMount(){
-    console.log('CompDidMount on CommentList: ' + this.activePostId)
     this.props.fetchComments(this.props.activePostId)
   }
 

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 import { convertToDate } from '../Utils'
 import { getPost, votePost } from '../Actions/post'
-import { fetchComments } from '../Actions/comment'
 import CommentAdd from './CommentAdd'
 import CommentList from './CommentList'
 import Voters from './Voters'
@@ -15,8 +14,9 @@ class PostDetail extends React.Component {
   }
 
   render(){
-    const {post, match} = this.props
-    const {title, author, body, timestamp, category, voteScore, id} = post
+    const {activePost, match, votePost} = this.props
+    const {title, author, body, timestamp, category, voteScore, id} = activePost
+    
     return (
       <div>
         <h2>{title}</h2>
@@ -26,13 +26,13 @@ class PostDetail extends React.Component {
           <Link to={`${match.url}/delete`}>delete</Link>
         </small>
         <p>{body}</p>
-        <Voters id={id} score={voteScore} onVote={this.props.votePost}/>
+        <Voters id={id} score={voteScore} onVote={votePost}/>
         <small>
           <p>Category: <Link to={`/${category}`}>{category}</Link></p>
           {'Updated on ' + convertToDate(timestamp)} 
         </small>
         <hr/>
-        {!!!this.props.post.id ? 'Loading' :
+        {!!!activePost.id ? 'Loading' :
           <div>
             <CommentList/>
             <CommentAdd/>
@@ -45,14 +45,13 @@ class PostDetail extends React.Component {
 
 function mapStateToProps({post, comment}) {
   return {
-    post: post.activePost
+    activePost: post.activePost
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getPost: id => dispatch(getPost(id)),
-    fetchComments: postId => dispatch(fetchComments(postId)),
     votePost: (id, vote) => dispatch(votePost(id, vote))
   }
 }
