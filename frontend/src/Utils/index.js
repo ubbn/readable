@@ -8,7 +8,8 @@ if (!token)
 
 export const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Authorization': token,
+  'Content-Type': 'application/json'
 }
 
 // Generate random unique id with length of 20 chars
@@ -22,5 +23,5 @@ export const getTimestamp = () => Math.floor(Date.now())
 // Converts unix timestamp to formatted date string using Moment.js
 export const convertToDate = (timestamp) => {
   let a = moment.unix(timestamp/1000)
-  return a.format("LLLL")
+  return a.format("YYYY-MM-DD HH:mm:ss")
 }

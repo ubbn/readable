@@ -4,33 +4,42 @@ import {connect} from 'react-redux'
 import { addComment, editComment, fetchComments } from '../Actions/comment'
 
 class CommentAdd extends React.Component {
+  // If comment to edit is set
+  onEdit = !!this.props.comment
+
   componentDidMount(){
-    if (!!this.props.comment)
+    if (this.onEdit){
       this.comment.value = this.props.comment.body
+      this.author.value = this.props.comment.author
+    }
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
-    // Comment box is empty
-    if (!!!this.comment.value)
+    // Comment or author value is empty
+    if (!!!this.comment.value || !!!this.author.value)
       return
 
-    if (this.props.comment)
-    {
-      const k = {...this.props.comment, body: this.comment.value}
-      console.log('OnSubmit: ' + k)
-      this.props.editComment(k)
+    const comment = {
+      body: this.comment.value,
+      author: this.author.value,
     }
-    else  
-      {this.props.addComment(this.comment.value, this.props.activePostId)}
 
-    //this.props.fetchComments(this.props.activePostId)
-    
+    if (this.onEdit)
+      this.props.editComment({
+        ...this.props.comment, 
+        ...comment
+      })
+    else
+      this.props.addComment(comment, this.props.activePostId)
+
+    // Event set from parent can be triggered
     if (this.props.afterAdd)
       this.props.afterAdd()    
 
     this.comment.value = ''
+    this.author.value = ''
   }
 
   cancelled = (e) => {
@@ -48,22 +57,24 @@ class CommentAdd extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         <div>
+          <input type="text" placeholder="Author" ref={x => this.author = x}/>
+        </div>
+        <div>
           <textarea type="text" placeholder="comment" 
           ref={txt => this.comment = txt}
           onKeyPress={this.keyPressed}/>
         </div>
         <div>
-          <input type="submit" value="Add"/>
-          {!!this.props.comment && <button onClick={this.cancelled}>Cancel</button> }
+          <input type="submit" value={this.onEdit ? "Update" : "Add"}/>
+          {this.onEdit && <button onClick={this.cancelled}>Cancel</button> }
         </div>
       </form>
     )
   }
 }
 
-const mapState = ({post, comment}) => ({
-  activePostId: post.activePost.id,
-  allComments: comment.allComments
+const mapState = ({post}) => ({
+  activePostId: post.activePost.id
 })
 
 const mapDispatch = (dispatch) => ({

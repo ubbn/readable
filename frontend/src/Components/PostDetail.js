@@ -28,7 +28,7 @@ class PostDetail extends React.Component {
         <p>{body}</p>
         <Voters id={id} score={voteScore} onVote={this.props.votePost}/>
         <small>
-          <p>Category: <Link to={`/${category}/posts`}>{category}</Link></p>
+          <p>Category: <Link to={`/${category}`}>{category}</Link></p>
           {'Updated on ' + convertToDate(timestamp)} 
         </small>
         <hr/>

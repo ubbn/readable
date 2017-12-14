@@ -13,41 +13,26 @@ export const getByCategory = (category) =>
 export const update = (post) =>
   fetch(`${api}/posts/${post.id}`, {
     method: 'PUT',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify(post)
   }).then(res => res.json())
 
-export const add = (post) => {
-  return fetch('http://127.0.0.1:3001/posts/', {
+export const add = (post) => 
+  fetch(`${api}/posts`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify(post)
   }).then(res => res.json())
-}
 
-export const remove = (id) => {
-  return fetch(`${api}/posts/${id}`, {
+export const remove = (id) => 
+  fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    }
+    headers
   }).then(res => res.json())
-}
 
-export const vote = (id, vote) => {
-  return fetch(`${api}/posts/${id}`, {
+export const vote = (id, vote) => 
+  fetch(`${api}/posts/${id}`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json'
-    },
+    headers,
     body: JSON.stringify(vote)
   }).then(res => res.json())
-}

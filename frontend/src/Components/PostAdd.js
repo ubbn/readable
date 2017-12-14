@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import { addPost, updatePost } from '../Actions/post'
 
 class PostAdd extends React.Component {
   state = {
-    post: {},
-    categories: [],
+    post: {}, // current post on Edit/Add
     redirect: false
   }
 
@@ -40,7 +39,8 @@ class PostAdd extends React.Component {
   }
 
   render() {
-    const to = !!this.state.post.id ? `/post/${this.state.post.id}` : "/"
+    const {id, title, body, author, category} = this.state.post
+    const redirectTo = !!id ? `/${category}/${id}` : "/"
 
     return (
       <div>
@@ -49,19 +49,19 @@ class PostAdd extends React.Component {
             <label htmlFor="title">Title: </label>
             <input name="title" id="title" type="text" placeholder="Title" 
               onChange={e => this.valueChanged("title", e)}
-              value={this.state.post.title}/>
+              value={title}/>
           </p>
           <p>
             <label htmlFor="author">Author: </label>
             <input name="author" id="author" type="text" placeholder="Author" 
               onChange={e => this.valueChanged("author", e)}
-              value={this.state.post.author}/>
+              value={author}/>
           </p>
           <p>
             <label htmlFor="categories">Categories: </label>
             <select name="categories" id="categories" 
               onChange={e => this.valueChanged("category", e)}
-              value={this.state.post.category}
+              value={category}
               ref={ctrl => this.category = ctrl}>
               {this.props.category.map(x => <option key={x.name}>{x.name}</option>)}
             </select>
@@ -70,13 +70,14 @@ class PostAdd extends React.Component {
             <label htmlFor="body">Body: </label>
             <textarea name="body" id="body" cols="30" rows="10" placeholder="Post body" 
               onChange={e => this.valueChanged("body", e)}
-              value={this.state.post.body}/>
+              value={body}/>
           </p>
           <p>
-            <input type="submit" value="Save"/>
+            <input type="submit" value="Save"/>{' '}
+            <Link to={redirectTo}>Cancel</Link>
           </p>
         </form>
-        {this.state.redirect && (<Redirect to={to} />)}
+        {this.state.redirect && (<Redirect to={redirectTo} />)}
       </div>
     )
   }

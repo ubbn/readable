@@ -1,5 +1,5 @@
 import * as Util from '../Utils'
-import * as PostApi from '../Utils/PostApi'
+import * as PostApi from '../Utils/postApi'
 
 export const POST_GET = 'POST_GET'
 export const POSTS_FETCH = 'POSTS_FETCH'
@@ -8,28 +8,24 @@ export const POST_UPDATE = 'POST_UPDATE'
 export const POST_DELETE = 'POST_DELETE'
 export const POST_SORT = 'POST_SORT'
 
-const addPostAC = post => ({
-  type: POST_CREATE,
-  post
-})
-
 export const addPost = post => dispatch => {
   post.id = Util.getId()
   post.timestamp = Util.getTimestamp()
   post.voteScore = 0
   
-  PostApi.add(post).then(
-    post => dispatch(addPostAC(post)), 
-    error => console.log("bbnee error occurredee: " + error)
+  return PostApi.add(post).then(
+    post => dispatch({
+      type: POST_CREATE,
+      post
+    }), 
+    error => console.log("Error occurred: " + error)
   )
 }
 
-export const getPost = id => dispatch => {
-  return PostApi.get(id).then(post => dispatch({type: POST_GET, post}))
-}
+export const getPost = id => dispatch => 
+  PostApi.get(id).then(post => dispatch({type: POST_GET, post}))
 
 export const fetchPosts = (category) => dispatch => {
-  console.log(category)
   if (!!category)
     return PostApi.getByCategory(category)
       .then(posts => dispatch({type: POSTS_FETCH, posts}))  
@@ -39,7 +35,9 @@ export const fetchPosts = (category) => dispatch => {
 }
 
 export const updatePost = post => dispatch => {
-  PostApi.update(post).then(
+  post.timestamp = Util.getTimestamp()
+
+  return PostApi.update(post).then(
     post => dispatch({
       type: POST_UPDATE,
       post
@@ -47,23 +45,21 @@ export const updatePost = post => dispatch => {
   )
 }
 
-export const deletePost = (id) => dispatch => {
+export const deletePost = (id) => dispatch => 
   PostApi.remove(id).then(
     post => dispatch({
       type: POST_DELETE,
       id
     })
   )
-}
 
-export const votePost = (id, vote) => dispatch => {
+export const votePost = (id, vote) => dispatch => 
   PostApi.vote(id, vote).then(
     post => dispatch({
       type: POST_UPDATE,
       post      
     })
   )
-}
 
 export const sortPosts = field => dispatch => {
   dispatch({

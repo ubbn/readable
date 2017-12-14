@@ -1,4 +1,4 @@
-import * as CategoryApi from '../Utils/CategoryApi'
+import * as CategoryApi from '../Utils/categoryApi'
 
 export const CATEGORY_FETCH = 'CATEGORY_FETCH'
 
