@@ -9,7 +9,7 @@ import { deleteComment, fetchComments, voteComment } from '../Actions/comment'
 class CommentDetail extends React.Component {
   state = {
     showControl: false,
-    edit: false
+    onEdit: false
   }
 
   mouseEnter = (e) => {
@@ -20,27 +20,34 @@ class CommentDetail extends React.Component {
     this.setState({showControl: false})
   }
 
-  deleteComment = (e, id) => {
+  deleteComment = (e, comment) => {
     e.preventDefault()
-    this.props.deleteComment(id)
-    this.props.fetchComments(this.props.comment.parentId)
+    this.props.deleteComment(comment.id)
+    this.props.fetchComments(comment.parentId)
+  }
+
+  editComment = e => {
+    e.preventDefault()
+    this.setState({onEdit: true})
   }
 
   render() {
-    const {id, body, timestamp, author, voteScore} = this.props.comment
+    const {comment, voteComment } = this.props
+    const {id, body, timestamp, author, voteScore} = comment
+
     return (
       <div style={{margin: '10px'}}>
-        {this.state.edit ? 
-          <CommentAdd comment={this.props.comment} afterAdd={() => this.setState({edit: false})}/>
+        {this.state.onEdit ? 
+          <CommentAdd comment={comment} onClose={() => this.setState({onEdit: false})} form={`Edit_${id}`}/>
           :
           (<div onMouseMove={this.mouseEnter} onMouseLeave={this.mouseLeft}>
             <small>by {author} on {convertToDate(timestamp)}</small>
             <div>{body}</div>
-            <Voters id={id} score={voteScore} onVote={this.props.voteComment}/>
+            <Voters id={id} score={voteScore} onVote={voteComment}/>
             {this.state.showControl && 
               <div>
-                <button onClick={e=> this.setState({edit: true})}>edit</button>{' '}
-                <button onClick={e => this.deleteComment(e,id)}>delete</button>
+                <button onClick={this.editComment}>Edit</button>{' '}
+                <button onClick={e => this.deleteComment(e, comment)}>Delete</button>
               </div>
             }
           </div>)
@@ -50,14 +57,13 @@ class CommentDetail extends React.Component {
   }
 }
 
-const mapState = ({comment}) => ({
-  allComments: comment.allComments
-})
-
-const mapDispatch = (dispatch) => ({
-  deleteComment: id => dispatch(deleteComment(id)),
-  fetchComments: postId => dispatch(fetchComments(postId)),
-  voteComment: (id, vote) => dispatch(voteComment(id, vote))
-})
-
-export default connect(mapState, mapDispatch)(CommentDetail)
+export default connect(
+  ({comment}) => ({
+    allComments: comment.allComments
+  }), 
+  dispatch => ({
+    deleteComment: id => dispatch(deleteComment(id)),
+    fetchComments: postId => dispatch(fetchComments(postId)),
+    voteComment: (id, vote) => dispatch(voteComment(id, vote))
+  })
+)(CommentDetail)

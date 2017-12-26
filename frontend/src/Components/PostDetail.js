@@ -32,10 +32,10 @@ class PostDetail extends React.Component {
           {'Updated on ' + convertToDate(timestamp)} 
         </small>
         <hr/>
-        {!!!activePost.id ? 'Loading' :
+        {!!!activePost.id ? 'Loading comments' :
           <div>
             <CommentList/>
-            <CommentAdd/>
+            <CommentAdd form={'newComment'}/>
           </div> 
         }
       </div>
@@ -43,17 +43,12 @@ class PostDetail extends React.Component {
   }
 }
 
-function mapStateToProps({post, comment}) {
-  return {
+export default connect(
+  ({post}) =>({
     activePost: post.activePost
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
+  }), 
+  dispatch => ({
     getPost: id => dispatch(getPost(id)),
     votePost: (id, vote) => dispatch(votePost(id, vote))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)
+  })
+)(PostDetail)
