@@ -1,52 +1,42 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
+
+import { MenuItem, RaisedButton } from 'material-ui'
+import { SelectField, TextField } from 'redux-form-material-ui'
 
 const required = value => value ? undefined : 'Required'
 
-let PostForm = props => {
-  const { handleSubmit, pristine, submitting, onCancel } = props;
+const style = {
+  margin: 5
+}
+
+const PostForm = props => {
+  const { handleSubmit, pristine, submitting, onCancel, categories } = props;
   
   return (
     <form onSubmit={handleSubmit}>
-      <p>
-        <label htmlFor="title">Title: </label>
-        <Field name="title" id="title" type="text" placeholder="Title" component="input" validate={required}/>
-      </p>
-      <p>
-        <label htmlFor="author">Author: </label>
-        <Field name="author" id="author" type="text" placeholder="Author" component="input"/>
-      </p>
-      <p>
-        <label htmlFor="category">Categories: </label>
-        <Field name="category" id="category" component="select" defaultValue={'redux'}>
-          {props.category.map(x => <option key={x.name}>{x.name}</option>)}
+      <div>
+        <Field name="title" hintText="Title" component={TextField} validate={required} label="Title"/>
+      </div>
+      <div>
+        <Field name="author" type="text" hintText="Author" component={TextField} validate={required}/>
+      </div>
+      <div>
+        <Field name="category" floatingLabelText="Category" component={SelectField}>
+          {categories.map(x => <MenuItem key={x} value={x} primaryText={x}/>)}
         </Field>
-      </p>
-      <p>
-        <label htmlFor="body">Body: </label>
-        <Field name="body" id="body" cols="45" rows="15" placeholder="Post body" component="textarea"/>
-      </p>
-      <p>
-        <button type="submit" disabled={pristine || submitting}>Save</button>
-        <button type="button" onClick={onCancel}>Cancel</button>
-      </p>
+      </div>
+      <div>
+        <Field name="body" cols={45} rows={10} hintText="Body" component={TextField} validate={required}/>
+      </div>
+      <div>
+        <RaisedButton type="submit" disabled={pristine || submitting} label="Save" primary={true} style={style}/>
+        <RaisedButton type="button" onClick={onCancel} label="Cancel" style={style}/>
+      </div>
     </form>
   )
 }
 
-PostForm = reduxForm({
+export default reduxForm({
   form: 'postForm'
-})(PostForm);
-
-export default connect(
-  ({post, category}) => ({
-    initialValues: 
-      !!post.activePost.category ? 
-        post.activePost : 
-        {...post.activePost, 
-          category: category[0]
-        },
-    category
-  })
-)(PostForm)
+})(PostForm)

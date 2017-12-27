@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addPost, getPost, updatePost, deleteActivePost } from '../Actions/post'
+import { addPost, getPost, updatePost, clearActivePost } from '../Actions/post'
 import PostForm from './PostForm'
 
 class PostAdd extends React.Component {
@@ -12,7 +12,7 @@ class PostAdd extends React.Component {
     if (this.isOnEdit)
       this.props.getPost(this.props.match.params.postId)
     else
-      this.props.deleteActivePost()
+      this.props.clearActivePost()
   }
 
   onSubmit = (values) => {
@@ -41,19 +41,29 @@ class PostAdd extends React.Component {
 
   render() {
     return (
-      <PostForm onSubmit={this.onSubmit} onCancel={this.onCancel} />
+      <PostForm 
+        onSubmit={this.onSubmit} 
+        onCancel={this.onCancel} 
+        initialValues={this.props.intialValue}
+        categories={this.props.categories}
+      />
     )
   }
 }
 
 export default connect(
   ({post, category}) =>({
-    activePost: post.activePost
+    activePost: post.activePost,
+    categories: category.map(x => x.name),
+    intialValue: post.activePost.category ? 
+      post.activePost : {
+        category: !!category[0] ? category[0].name : ''
+      }
   }),
   dispatch => ({
     getPost: id => dispatch(getPost(id)),
     addNewPost: post => dispatch(addPost(post)),
     updatePost: post => dispatch(updatePost(post)),
-    deleteActivePost: () => dispatch(deleteActivePost()),
+    clearActivePost: () => dispatch(clearActivePost()),
   })
 )(PostAdd)

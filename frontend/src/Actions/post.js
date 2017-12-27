@@ -59,7 +59,7 @@ export const updateActivePost = post => dispatch => {
   dispatch({type: POST_ACTIVE_UPDATE, post})
 }
 
-export const deleteActivePost = () => dispatch => {
+export const clearActivePost = () => dispatch => {
   dispatch({type: POST_ACTIVE_DELETE})
 }
 
