@@ -12,7 +12,7 @@ class CommentDetail extends React.Component {
     onEdit: false
   }
 
-  mouseEnter = (e) => {
+  mouseMove = (e) => {
     this.setState({showControl: true})
   }
 
@@ -38,9 +38,9 @@ class CommentDetail extends React.Component {
     return (
       <div style={{margin: '10px'}}>
         {this.state.onEdit ? 
-          <CommentAdd comment={comment} onClose={() => this.setState({onEdit: false})} form={`Edit_${id}`}/>
+          <CommentAdd initialValues={comment} onClose={() => this.setState({onEdit: false})} form={`Edit_${id}`}/>
           :
-          (<div onMouseMove={this.mouseEnter} onMouseLeave={this.mouseLeft}>
+          (<div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeft}>
             <small>by {author} on {convertToDate(timestamp)}</small>
             <div>{body}</div>
             <Voters id={id} score={voteScore} onVote={voteComment}/>
@@ -58,9 +58,7 @@ class CommentDetail extends React.Component {
 }
 
 export default connect(
-  ({comment}) => ({
-    allComments: comment.allComments
-  }), 
+  null, 
   dispatch => ({
     deleteComment: id => dispatch(deleteComment(id)),
     fetchComments: postId => dispatch(fetchComments(postId)),
