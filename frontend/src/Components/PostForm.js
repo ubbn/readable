@@ -16,18 +16,18 @@ const PostForm = props => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field name="title" hintText="Title" component={TextField} validate={required} label="Title"/>
+        <Field name="title" floatingLabelText="Title" component={TextField} validate={required}/>
       </div>
       <div>
-        <Field name="author" type="text" hintText="Author" component={TextField} validate={required}/>
+        <Field name="author" floatingLabelText="Author" component={TextField} validate={required}/>
       </div>
       <div>
-        <Field name="category" floatingLabelText="Category" component={SelectField}>
+        <Field name="category" floatingLabelText="Category"  component={SelectField}>
           {categories.map(x => <MenuItem key={x} value={x} primaryText={x}/>)}
         </Field>
       </div>
       <div>
-        <Field name="body" cols={45} rows={10} hintText="Body" component={TextField} validate={required}/>
+        <Field name="body" rows={10} floatingLabelText="Body" multiLine component={TextField} validate={required}/>
       </div>
       <div>
         <RaisedButton type="submit" disabled={pristine || submitting} label="Save" primary={true} style={style}/>
