@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import { sortPosts } from '../Actions/post'
 
@@ -8,14 +10,24 @@ class  Sorter extends React.Component {
     e.preventDefault()
     this.props.sortBy(field)
   }
+
+  handleChange = (e, index, value) => {
+    e.preventDefault()
+    this.props.sortBy(value)
+  }
     
   render() {
     return (
       <div>
-        Sorted by: {this.props.sortedBy} -- 
-        <a href="" onClick={e => this.clicked(e, 'title')}>title</a>, 
-        <a href="" onClick={e => this.clicked(e, 'timestamp')}>date</a>, 
-        <a href="" onClick={e => this.clicked(e, 'voteScore')}>vote</a>
+        <SelectField
+          floatingLabelText="Sorted by"
+          value={this.props.sortedBy}
+          onChange={this.handleChange}
+        >
+          <MenuItem value={'title'} primaryText="Title" />
+          <MenuItem value={'timestamp'} primaryText="Time stamp" />
+          <MenuItem value={'voteScore'} primaryText="Vote score" />
+        </SelectField>
       </div>
     );
   }

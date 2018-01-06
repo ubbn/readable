@@ -3,7 +3,7 @@ import * as ActionTypes from '../Actions/post'
 const initialState = {
   allPosts: [],
   activePost: {},
-  sortBy: 'timeStamp'
+  sortBy: 'title'
 }
 
 export const post = (state=initialState, action) => {
