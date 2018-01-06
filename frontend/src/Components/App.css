@@ -1,0 +1,40 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 200px auto;
+  grid-gap: 10px;
+}
+
+.container > div {
+  border: 0px;
+  border-style: dotted;
+}
+
+.header {
+  display: flex;
+  grid-column: 2 / -2;
+}
+
+.menu {
+  grid-column: 2 / 4;
+}
+
+.content {
+  grid-column: 4 / -2;
+}
+
+.add-new {
+  margin-left: auto;
+  display: grid;
+  align-content: end;
+}
+
+.title {
+  display: grid;
+  align-content: end;  
+}
+
+.title > h1 > a {
+  text-decoration: none;
+  background: rgba(211, 211, 211, 0.808);
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom'
+import {List, ListItem} from 'material-ui/List';
 
 import { fetchPosts } from '../Actions/post'
 import { fetchCategories } from '../Actions/category'
@@ -18,14 +19,15 @@ class CategoryList extends React.Component {
   render(){
     return (
       <div>
-        <h3>All categories</h3>
-        <ul>
+        <h2>Categories</h2>
+        <List>
           {!!this.props.allCategories && this.props.allCategories.map(x => 
-            <li key={x.path}>
-              <Link to={`/${x.path}`} onClick={(e) => this.refreshPosts(e, x.name)}>{x.name}</Link>
-            </li>
+            <ListItem key={x.path}
+              primaryText={x.name}
+              containerElement={<Link to={`/${x.path}`} onClick={(e) => this.refreshPosts(e, x.name)}/>}
+            />
           )}
-        </ul>
+        </List>
       </div>
     )
   }

@@ -41,12 +41,15 @@ class PostAdd extends React.Component {
 
   render() {
     return (
-      <PostForm 
-        onSubmit={this.onSubmit} 
-        onCancel={this.onCancel} 
-        initialValues={this.props.intialValue}
-        categories={this.props.categories}
-      />
+      <div>
+        <h2>{this.isOnEdit ? 'Edit post' : 'Add new post'}</h2>
+        <PostForm 
+          onSubmit={this.onSubmit} 
+          onCancel={this.onCancel} 
+          initialValues={this.props.intialValue}
+          categories={this.props.categories}
+        />
+      </div>
     )
   }
 }

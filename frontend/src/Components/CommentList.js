@@ -12,7 +12,8 @@ class CommentList extends React.Component {
 
   render() {
     return (
-      <div>Comments {this.props.allComments.length}
+      <div>
+        <strong>Comments: {this.props.allComments.length}</strong>
         {this.props.allComments.map(x => <CommentDetail key={x.id} comment={x}/>)}
       </div>
     )

@@ -1,4 +1,5 @@
 import React from 'react';
+import IconButton from './IconButton'
 
 const upVote = {
   option: 'upVote'
@@ -14,12 +15,14 @@ const clicked = (e, onVote, id, vote) => {
 }
 
 const Voters = (props) => {
-  const {onVote, score, id} = props
+  const {onVote, score, id, showScore} = props
   return (
     <div>
-      <small>{score > 0 ? '+' + score : score}</small>{' '}
-      <button onClick={e => clicked(e, onVote, id, upVote)}>+</button>
-      <button onClick={e => clicked(e, onVote, id, downVote)}>–</button>
+      {showScore &&
+        <small>{score > 0 ? '+' + score : score}{' '}</small>
+      }
+      <IconButton onClick={e => clicked(e, onVote, id, upVote)} name="thumb_up" />
+      <IconButton onClick={e => clicked(e, onVote, id, downVote)} name="thumb_down" />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import CommentAdd from './CommentAdd'
 import Voters from './Voters'
+import IconButton from './IconButton'
 import { convertToDate } from '../Utils'
 import { deleteComment, fetchComments, voteComment } from '../Actions/comment'
 
@@ -36,20 +37,25 @@ class CommentDetail extends React.Component {
     const {id, body, timestamp, author, voteScore} = comment
 
     return (
-      <div style={{margin: '10px'}}>
+      <div style={{margin: '20px'}}>
         {this.state.onEdit ? 
-          <CommentAdd initialValues={comment} onClose={() => this.setState({onEdit: false})} form={`Edit_${id}`}/>
-          :
-          (<div onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeft}>
-            <small>by {author} on {convertToDate(timestamp)}</small>
-            <div>{body}</div>
-            <Voters id={id} score={voteScore} onVote={voteComment}/>
-            {this.state.showControl && 
-              <div>
-                <button onClick={this.editComment}>Edit</button>{' '}
-                <button onClick={e => this.deleteComment(e, comment)}>Delete</button>
-              </div>
-            }
+          <CommentAdd 
+            initialValues={comment} 
+            onClose={() => this.setState({onEdit: false})} 
+            form={`Edit_${id}`}
+          />
+        : (<div>
+            <div style={{display: "inline-block", width: "70%"}}>
+              <small>
+                by <b>{author}</b> on {convertToDate(timestamp)}
+              </small>
+              <div>{body}</div>
+              <Voters id={id} score={voteScore} onVote={voteComment} showScore={true}/>
+            </div>
+            <div style={{float: "right"}}>
+              <IconButton name="edit" onClick={this.editComment}/>
+              <IconButton name="delete" onClick={e => this.deleteComment(e, comment)}/>
+            </div>
           </div>)
         }
       </div>

@@ -21,17 +21,18 @@ class PostDetail extends React.Component {
       <div>
         <h2>{title}</h2>
         <small>
-          <p>published by {author}</p>
-          <Link to={`${match.url}/edit`}>edit</Link>{' | '}
-          <Link to={`${match.url}/delete`}>delete</Link>
+          <p>published by <strong>{author}</strong>{' | '}
+            category: <Link to={`/${category}`}>{category}</Link>{' | '}
+            {convertToDate(timestamp)} 
+            {' ('}
+              <Link to={`${match.url}/edit`}>edit</Link>{' | '}
+              <Link to={`${match.url}/delete`}>delete</Link>
+            {')'}
+          </p>
         </small>
         <p>{body}</p>
-        <Voters id={id} score={voteScore} onVote={votePost}/>
-        <small>
-          <p>Category: <Link to={`/${category}`}>{category}</Link></p>
-          {'Updated on ' + convertToDate(timestamp)} 
-        </small>
-        <hr/>
+        <Voters id={id} score={voteScore} onVote={votePost} showScore={true}/>
+        <br/>
         {!!!activePost.id ? 'Loading comments' :
           <div>
             <CommentList/>
