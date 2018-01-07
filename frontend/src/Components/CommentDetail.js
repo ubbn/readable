@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import CommentAdd from './CommentAdd'
 import Voters from './Voters'
-import IconButton from './IconButton'
+import FontIconButton from './FontIconButton'
 import { convertToDate } from '../Utils'
 import { deleteComment, fetchComments, voteComment } from '../Actions/comment'
 
@@ -53,8 +53,8 @@ class CommentDetail extends React.Component {
               <Voters id={id} score={voteScore} onVote={voteComment} showScore={true}/>
             </div>
             <div style={{float: "right"}}>
-              <IconButton name="edit" onClick={this.editComment}/>
-              <IconButton name="delete" onClick={e => this.deleteComment(e, comment)}/>
+              <FontIconButton name="edit" onClick={this.editComment}/>
+              <FontIconButton name="delete" onClick={e => this.deleteComment(e, comment)}/>
             </div>
           </div>)
         }

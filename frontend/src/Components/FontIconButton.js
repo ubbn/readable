@@ -1,7 +1,7 @@
 import React from 'react'
 import FontIcon from 'material-ui/FontIcon'
 
-const IconButton = (props) => {
+const FontIconButton = (props) => {
   const {onClick, name} = props
   
   return (
@@ -13,4 +13,4 @@ const IconButton = (props) => {
   )
 }
 
-export default IconButton
+export default FontIconButton

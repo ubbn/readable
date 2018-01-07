@@ -1,5 +1,5 @@
 import React from 'react';
-import IconButton from './IconButton'
+import FontIconButton from './FontIconButton'
 
 const upVote = {
   option: 'upVote'
@@ -21,8 +21,8 @@ const Voters = (props) => {
       {showScore &&
         <small>{score > 0 ? '+' + score : score}{' '}</small>
       }
-      <IconButton onClick={e => clicked(e, onVote, id, upVote)} name="thumb_up" />
-      <IconButton onClick={e => clicked(e, onVote, id, downVote)} name="thumb_down" />
+      <FontIconButton onClick={e => clicked(e, onVote, id, upVote)} name="thumb_up" />
+      <FontIconButton onClick={e => clicked(e, onVote, id, downVote)} name="thumb_down" />
     </div>
   );
 }

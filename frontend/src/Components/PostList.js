@@ -11,6 +11,7 @@ import {
 } from 'material-ui/Table';
 
 import { fetchPosts, votePost } from '../Actions/post'
+import { convertToDate } from '../Utils'
 import Voters from './Voters'
 import Sorter from './Sorter'
 
@@ -24,12 +25,13 @@ class PostList extends React.Component  {
       <div>
         <h2>Posts</h2>
         {!!this.props.match.params.category && <small>filtered by category: {this.props.match.params.category}</small> }
-        <Sorter/>
+          <Sorter/>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHeaderColumn style={{width: "30%"}}>Title</TableHeaderColumn>
               <TableHeaderColumn>Author</TableHeaderColumn>
+              <TableHeaderColumn>Date</TableHeaderColumn>
               <TableHeaderColumn>Comments</TableHeaderColumn>
               <TableHeaderColumn>Score</TableHeaderColumn>
               <TableHeaderColumn>Vote</TableHeaderColumn>
@@ -42,6 +44,7 @@ class PostList extends React.Component  {
                   <Link to={`${x.category}/${x.id}`}>{x.title}</Link>
                 </TableRowColumn>
                 <TableRowColumn>{x.author}</TableRowColumn>
+                <TableRowColumn>{convertToDate(x.timestamp)}</TableRowColumn>
                 <TableRowColumn>{x.commentCount}</TableRowColumn>
                 <TableRowColumn>{x.voteScore}</TableRowColumn>
                 <TableRowColumn>

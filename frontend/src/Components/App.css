@@ -1,8 +1,8 @@
 .container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 200px auto;
-  grid-gap: 10px;
+  grid-template-rows: auto auto;
+  grid-gap: 30px;
 }
 
 .container > div {
@@ -16,17 +16,17 @@
 }
 
 .menu {
-  grid-column: 2 / 4;
+  grid-column: 2 / 3;
 }
 
 .content {
-  grid-column: 4 / -2;
+  grid-column: 3 / -2;
 }
 
 .add-new {
   margin-left: auto;
   display: grid;
-  align-content: end;
+  align-content: center;
 }
 
 .title {

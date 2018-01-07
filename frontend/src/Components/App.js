@@ -5,10 +5,25 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import CategoryList from './CategoryList'
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 import Routes from '../routes'
 import './App.css'
 
+const styles = {
+  mediumIcon: {
+    width: 48,
+    height: 48,
+  },
+  medium: {
+    width: 96,
+    height: 96,
+    padding: 24,
+  },
+}
+
 class App extends Component {
+  
   render() {
     return (
       <Router>
@@ -16,7 +31,13 @@ class App extends Component {
           <div className="container">
             <div className="header">
               <div className="title">
-                <h1><Link to="/">Keep blogging...</Link></h1>
+                <IconButton
+                  iconStyle={styles.mediumIcon}
+                  style={styles.medium}
+                  containerElement={<Link to="/" />}
+                >
+                  <ActionHome />
+                </IconButton>
               </div>
               <div className="add-new">
                 <FloatingActionButton 
