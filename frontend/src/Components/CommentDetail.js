@@ -13,14 +13,6 @@ class CommentDetail extends React.Component {
     onEdit: false
   }
 
-  mouseMove = (e) => {
-    this.setState({showControl: true})
-  }
-
-  mouseLeft = (e) => {
-    this.setState({showControl: false})
-  }
-
   deleteComment = (e, comment) => {
     e.preventDefault()
     this.props.deleteComment(comment.id)
@@ -47,7 +39,7 @@ class CommentDetail extends React.Component {
         : (<div>
             <div style={{display: "inline-block", width: "70%"}}>
               <small>
-                by <b>{author}</b> on {convertToDate(timestamp)}
+                by <b>{!!author ? author : 'anonymous'}</b> on {convertToDate(timestamp)}
               </small>
               <div>{body}</div>
               <Voters id={id} score={voteScore} onVote={voteComment} showScore={true}/>

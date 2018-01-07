@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link, BrowserRouter as Router} from 'react-router-dom'
+import {Link, Route, BrowserRouter as Router} from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -48,7 +48,7 @@ class App extends Component {
               </div>
             </div>
             <div className="menu">
-              <CategoryList/>
+              <Route path="/" component={CategoryList}/>
             </div>
             <div className="content">
               <Routes/>

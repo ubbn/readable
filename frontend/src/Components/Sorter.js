@@ -18,7 +18,7 @@ class  Sorter extends React.Component {
     
   render() {
     return (
-      <div>
+      <div style={{display: "inline"}}>
         <SelectField
           floatingLabelText="Sorted by"
           value={this.props.sortedBy}

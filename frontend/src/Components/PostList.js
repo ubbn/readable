@@ -9,6 +9,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import { fetchPosts, votePost } from '../Actions/post'
 import { convertToDate } from '../Utils'
@@ -20,13 +21,39 @@ class PostList extends React.Component  {
     this.props.fetchPosts(this.props.match.params.category)
   }
 
+  state = {
+    selectedRow: {}
+  }
+
+  url = ''
+
+  onRowSelection = (selectedRow) => {
+    this.setState({selectedRow})
+    const selectedPost = this.props.allPosts[selectedRow];
+    
+    if (selectedPost)
+      this.url = `${selectedPost.category}/${selectedPost.id}`
+    else
+      this.url = ''
+  }
+
   render(){
     return (
       <div>
         <h2>Posts</h2>
-        {!!this.props.match.params.category && <small>filtered by category: {this.props.match.params.category}</small> }
-          <Sorter/>
-        <Table>
+        <Sorter/>
+        <div style ={{float: "right", marginTop: "25px"}}>
+          <RaisedButton label="Edit"
+            containerElement={<Link to={`${this.url}/edit`}/>}
+            disabled={!!!this.url}
+          />
+          <RaisedButton label="Delete" 
+            style={{marginLeft: "12px"}}
+            containerElement={<Link to={`${this.url}/delete`}/>}
+            disabled={!!!this.url}
+          />
+        </div>
+        <Table onRowSelection={rows => this.onRowSelection(rows[0])}>
           <TableHeader>
             <TableRow>
               <TableHeaderColumn style={{width: "30%"}}>Title</TableHeaderColumn>
@@ -38,8 +65,8 @@ class PostList extends React.Component  {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {this.props.allPosts.filter(x => !!x.id).map(x =>
-              <TableRow key={x.id}>
+            {this.props.allPosts.filter(x => !!x.id).map((x, i) =>
+              <TableRow key={i} selected={this.state.selectedRow === i}>
                 <TableRowColumn style={{width: "30%"}}>
                   <Link to={`${x.category}/${x.id}`}>{x.title}</Link>
                 </TableRowColumn>

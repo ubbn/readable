@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import { convertToDate } from '../Utils'
 import { getPost, votePost } from '../Actions/post'
@@ -24,14 +25,19 @@ class PostDetail extends React.Component {
           <p>published by <strong>{author}</strong>{' | '}
             category: <Link to={`/${category}`}>{category}</Link>{' | '}
             {convertToDate(timestamp)} 
-            {' ('}
-              <Link to={`${match.url}/edit`}>edit</Link>{' | '}
-              <Link to={`${match.url}/delete`}>delete</Link>
-            {')'}
           </p>
         </small>
         <p>{body}</p>
         <Voters id={id} score={voteScore} onVote={votePost} showScore={true}/>
+        <br/>
+        <RaisedButton label="Edit" 
+          style={{marginRight: "12px"}} 
+          containerElement={<Link to={`${match.url}/edit`}/>} 
+        />
+        <RaisedButton label="Delete"
+          containerElement={<Link to={`${match.url}/delete`}/>}
+        />
+        <br/>
         <br/>
         {!!!activePost.id ? 'Loading comments' :
           <div>

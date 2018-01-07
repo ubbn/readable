@@ -16,7 +16,13 @@ const CommentForm = props => {
         <Field name="author" type="text" hintText="Author" component={TextField}/>
       </div>
       <div>
-        <Field name="body" type="text" hintText="Comment" component={TextField} validate={required}/>
+        <Field name="body" type="text" 
+          multiLine={true}
+          rows={2}
+          hintText="Comment" 
+          component={TextField} 
+          validate={required}
+        />
       </div>
       <div>
         <FlatButton type="submit" disabled={pristine || submitting} label={isNew ? "Add" : "Save"} />

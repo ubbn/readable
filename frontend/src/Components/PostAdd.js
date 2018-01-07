@@ -28,7 +28,10 @@ class PostAdd extends React.Component {
   }
 
   onCancel = (e) => {
-    this.redirectTo(this.props.activePost)
+    if (this.isOnEdit)
+      this.props.history.go(-1)
+    else
+      this.redirectTo(this.props.activePost)
   }
 
   redirectTo = post => {
@@ -43,12 +46,14 @@ class PostAdd extends React.Component {
     return (
       <div>
         <h2>{this.isOnEdit ? 'Edit post' : 'Add new post'}</h2>
+        {!this.isOnEdit || (this.isOnEdit && !!this.props.activePost.id) ? 
         <PostForm 
           onSubmit={this.onSubmit} 
           onCancel={this.onCancel} 
           initialValues={this.props.intialValue}
           categories={this.props.categories}
         />
+        : 'Loading'}
       </div>
     )
   }
@@ -62,7 +67,7 @@ export default connect(
       post.activePost : {
         category: !!category[0] ? category[0].name : ''
       }
-  }),
+    }),
   dispatch => ({
     getPost: id => dispatch(getPost(id)),
     addNewPost: post => dispatch(addPost(post)),
