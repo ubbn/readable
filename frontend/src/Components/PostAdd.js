@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { addPost, getPost, updatePost, clearActivePost } from '../Actions/post'
 import PostForm from './PostForm'
+import ResourceNotFound from './SubComponents/ResourceNotFound'
 
 class PostAdd extends React.Component {
   isOnEdit = !!this.props.match.params.postId
@@ -53,7 +54,7 @@ class PostAdd extends React.Component {
           initialValues={this.props.intialValue}
           categories={this.props.categories}
         />
-        : 'Loading'}
+        : <ResourceNotFound/>}
       </div>
     )
   }

@@ -8,6 +8,7 @@ import { getPost, votePost } from '../Actions/post'
 import CommentAdd from './CommentAdd'
 import CommentList from './CommentList'
 import Voters from './SubComponents/Voters'
+import ResourceNotFound from './SubComponents/ResourceNotFound'
 
 class PostDetail extends React.Component {
   componentDidMount(){
@@ -16,8 +17,11 @@ class PostDetail extends React.Component {
 
   render(){
     const {activePost, match, votePost} = this.props
+    if (Object.keys(activePost).length == 0)
+      return <ResourceNotFound/>
+
     const {title, author, body, timestamp, category, voteScore, id} = activePost
-    
+
     return (
       <div>
         <h2>{title}</h2>

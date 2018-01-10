@@ -25,7 +25,10 @@ export const addPost = post => dispatch => {
 }
 
 export const getPost = id => dispatch => 
-  PostApi.get(id).then(post => dispatch({type: POST_GET, post}))
+  PostApi.get(id).then(post => {
+    if (!post.error)
+      dispatch({type: POST_GET, post})
+  })
 
 export const fetchPosts = (category) => dispatch => {
   if (!!category)

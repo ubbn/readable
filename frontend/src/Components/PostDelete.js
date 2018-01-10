@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import { getPost, deletePost } from '../Actions/post'
+import ResourceNotFound from './SubComponents/ResourceNotFound'
 
 class PostDelete extends React.Component {
 
@@ -22,6 +23,9 @@ class PostDelete extends React.Component {
   }
   
   render() {
+    if (Object.keys(this.props.activePost).length == 0)
+      return <ResourceNotFound/>
+
     const { title, author } = this.props.activePost
     return (
       <div>
