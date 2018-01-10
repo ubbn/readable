@@ -7,11 +7,11 @@ import { convertToDate } from '../Utils'
 import { getPost, votePost } from '../Actions/post'
 import CommentAdd from './CommentAdd'
 import CommentList from './CommentList'
-import Voters from './Voters'
+import Voters from './SubComponents/Voters'
 
 class PostDetail extends React.Component {
   componentDidMount(){
-    this.props.getPost(this.props.match.params.postId)
+    this.props.getPost(this.props.match.params.postId)//.catch(e => console.log(e))
   }
 
   render(){

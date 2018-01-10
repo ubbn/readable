@@ -13,8 +13,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { fetchPosts, votePost } from '../Actions/post'
 import { convertToDate } from '../Utils'
-import Voters from './Voters'
-import Sorter from './Sorter'
+import Voters from './SubComponents/Voters'
+import Sorter from './SubComponents/Sorter'
 
 class PostList extends React.Component  {
   componentDidMount(){

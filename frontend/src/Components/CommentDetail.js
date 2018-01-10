@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import CommentAdd from './CommentAdd'
-import Voters from './Voters'
-import FontIconButton from './FontIconButton'
+import Voters from './SubComponents/Voters'
+import FontIconButton from './SubComponents/FontIconButton'
 import { convertToDate } from '../Utils'
 import { deleteComment, fetchComments, voteComment } from '../Actions/comment'
 

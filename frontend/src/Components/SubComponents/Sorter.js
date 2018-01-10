@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { sortPosts } from '../Actions/post'
+import { sortPosts } from '../../Actions/post'
 
 class  Sorter extends React.Component {
   clicked = (e, field) => {
